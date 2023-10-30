@@ -4,11 +4,10 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\FieldTypes\UserTypeEnum;
 
 #[ORM\Table(name: '`user`')]
 #[ORM\Entity]
-#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap(['student' => Student::class, 'teacher' => Teacher::class])]
 class User implements TypeAwareInterface
