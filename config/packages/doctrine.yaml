@@ -17,6 +17,11 @@ doctrine:
                 alias: App
                 type: attribute
 
+        filters:
+            type_filter:
+                class: App\Doctrine\TypeFilter
+                enabled: true
+
 when@test:
     doctrine:
         dbal:
