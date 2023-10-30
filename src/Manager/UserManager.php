@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\FieldTypes\UserType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -16,7 +17,7 @@ class UserManager
     {
         $user = new User();
         $user->setLogin($login);
-        $user->setType($type);
+        $user->setType(UserType::fromString($type));
         $user->setCreatedAt();
         $user->setUpdatedAt();
         $this->entityManager->persist($user);
@@ -34,7 +35,7 @@ class UserManager
             return null;
         }
         $user->setLogin($login);
-        $user->setType($type);
+        $user->setType(UserType::fromString($type));
         $user->setUpdatedAt();
         $this->entityManager->flush();
 

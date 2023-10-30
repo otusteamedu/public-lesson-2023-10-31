@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\FieldTypes\UserType;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,8 +24,8 @@ class User implements TypeAwareInterface
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: false)]
     private DateTime $updatedAt;
 
-    #[ORM\Column(type: 'string', length: 10, nullable: false)]
-    private string $type;
+    #[ORM\Column(type: 'userType', length: 10, nullable: false)]
+    private UserType $type;
 
     public function getId(): int
     {
@@ -62,12 +63,12 @@ class User implements TypeAwareInterface
         $this->updatedAt = new DateTime();
     }
 
-    public function getType(): string
+    public function getType(): UserType
     {
         return $this->type;
     }
 
-    public function setType(string $type): void
+    public function setType(UserType $type): void
     {
         $this->type = $type;
     }
@@ -77,7 +78,7 @@ class User implements TypeAwareInterface
         return [
             'id' => $this->id,
             'login' => $this->login,
-            'type' => $this->type,
+            'type' => $this->type->getValue(),
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
         ];
