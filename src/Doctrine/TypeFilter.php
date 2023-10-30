@@ -14,6 +14,6 @@ class TypeFilter extends SQLFilter
             return '';
         }
 
-        return $targetTableAlias.".type = 'student'";
+        return $targetTableAlias.'.type = '.$this->getParameter('type');
     }
 }

@@ -21,6 +21,8 @@ doctrine:
             type_filter:
                 class: App\Doctrine\TypeFilter
                 enabled: true
+                parameters:
+                    type: student
 
 when@test:
     doctrine:
