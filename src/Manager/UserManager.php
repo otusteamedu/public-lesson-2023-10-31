@@ -25,7 +25,6 @@ class UserManager
             $user->setSubject('Предмет №'.random_int(1,1000));
         }
         $user->setLogin($login);
-        $user->setType(UserTypeEnum::from($type));
         $user->setCreatedAt();
         $user->setUpdatedAt();
         $this->entityManager->persist($user);

@@ -6,9 +6,18 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\FieldTypes\UserTypeEnum;
 
-#[ORM\MappedSuperclass]
+#[ORM\Table(name: '`user`')]
+#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap(['student' => Student::class, 'teacher' => Teacher::class])]
 class User implements TypeAwareInterface
 {
+    #[ORM\Column(name: 'id', type: 'bigint', unique: true)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
+
     #[ORM\Column(type: 'string', length: 32, nullable: false)]
     private string $login;
 
@@ -18,8 +27,15 @@ class User implements TypeAwareInterface
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: false)]
     private DateTime $updatedAt;
 
-    #[ORM\Column(type: 'string', length: 10, nullable: false, enumType: UserTypeEnum::class)]
-    private UserTypeEnum $type;
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getLogin(): string
     {
@@ -47,21 +63,11 @@ class User implements TypeAwareInterface
         $this->updatedAt = new DateTime();
     }
 
-    public function getType(): UserTypeEnum
-    {
-        return $this->type;
-    }
-
-    public function setType(UserTypeEnum $type): void
-    {
-        $this->type = $type;
-    }
-
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'login' => $this->login,
-            'type' => $this->type->value,
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
             'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
         ];
