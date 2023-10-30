@@ -29,9 +29,14 @@ class UserController
     }
 
     #[Route(path: '', methods: ['GET'])]
-    public function getUsersAction(): Response
+    public function getUsersAction(Request $request): Response
     {
-        $users = $this->userManager->getUsers();
+        $type = $request->query->get('type');
+        if ($type === 'student') {
+            $users = $this->userManager->getStudents();
+        } else {
+            $users = $this->userManager->getTeachers();
+        }
         $code = empty($users) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK;
 
         return new JsonResponse(['users' => array_map(static fn(User $user) => $user->toArray(), $users)], $code);

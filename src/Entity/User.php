@@ -6,15 +6,9 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\FieldTypes\UserTypeEnum;
 
-#[ORM\Table(name: '`user`')]
-#[ORM\Entity]
+#[ORM\MappedSuperclass]
 class User implements TypeAwareInterface
 {
-    #[ORM\Column(name: 'id', type: 'bigint', unique: true)]
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private ?int $id = null;
-
     #[ORM\Column(type: 'string', length: 32, nullable: false)]
     private string $login;
 
@@ -26,16 +20,6 @@ class User implements TypeAwareInterface
 
     #[ORM\Column(type: 'string', length: 10, nullable: false, enumType: UserTypeEnum::class)]
     private UserTypeEnum $type;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
 
     public function getLogin(): string
     {
@@ -76,7 +60,6 @@ class User implements TypeAwareInterface
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
             'login' => $this->login,
             'type' => $this->type->value,
             'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
