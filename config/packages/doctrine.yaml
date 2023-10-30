@@ -20,9 +20,9 @@ doctrine:
         filters:
             type_filter:
                 class: App\Doctrine\TypeFilter
-                enabled: true
+                enabled: false
                 parameters:
-                    type: student
+                    type: teacher
 
 when@test:
     doctrine:
